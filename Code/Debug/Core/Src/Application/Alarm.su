@@ -1,0 +1,5 @@
+../Core/Src/Application/Alarm.c:28:6:Alarm_Ring	8	static
+../Core/Src/Application/Alarm.c:35:6:Alarm_Snooze	8	static
+../Core/Src/Application/Alarm.c:52:6:Alarm_Stop	8	static
+../Core/Src/Application/Alarm.c:65:6:Alarm_ON_OFF	8	static
+../Core/Src/Application/Alarm.c:83:6:Alaram_setAlarm	24	static

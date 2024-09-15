@@ -1,0 +1,5 @@
+../Core/Src/Application/Clock.c:31:6:Clock_init	1
+../Core/Src/Application/Clock.c:49:6:Clock_updateTime	5
+../Core/Src/Application/Clock.c:79:6:Clock_display	3
+../Core/Src/Application/Clock.c:112:6:Clock_setClock	32
+../Core/Src/Application/Clock.c:227:4:Clock_compareTime	3

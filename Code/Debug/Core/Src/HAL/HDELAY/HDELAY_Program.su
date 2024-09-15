@@ -1,0 +1,2 @@
+../Core/Src/HAL/HDELAY/HDELAY_Program.c:30:6:HDELAY_delay_us	16	static
+../Core/Src/HAL/HDELAY/HDELAY_Program.c:42:6:HDELAY_delay_ms	16	static

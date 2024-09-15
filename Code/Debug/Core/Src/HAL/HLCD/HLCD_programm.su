@@ -1,0 +1,9 @@
+../Core/Src/HAL/HLCD/HLCD_programm.c:31:6:HLCD_voidINIT	8	static
+../Core/Src/HAL/HLCD/HLCD_programm.c:56:4:HLCD_u8SendCmnd	24	static
+../Core/Src/HAL/HLCD/HLCD_programm.c:87:4:HLCD_u8SendChar	24	static
+../Core/Src/HAL/HLCD/HLCD_programm.c:120:4:HLCD_u8SetCursor	24	static
+../Core/Src/HAL/HLCD/HLCD_programm.c:138:4:HLCD_u8SendString	24	static
+../Core/Src/HAL/HLCD/HLCD_programm.c:157:4:HLCD_u8SendNumber	32	static
+../Core/Src/HAL/HLCD/HLCD_programm.c:195:4:HLCD_u8GenerateSpecialCharacter	24	static
+../Core/Src/HAL/HLCD/HLCD_programm.c:214:4:HLCD_u8DisplaySpecialCharacter	24	static
+../Core/Src/HAL/HLCD/HLCD_programm.c:229:4:HLCD_u8ClearDisplay	8	static
