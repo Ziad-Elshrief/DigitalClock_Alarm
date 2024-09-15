@@ -77,7 +77,7 @@ The Alarm provides the following functions:
 void Alaram_setAlarm();
 ```
 * **Enable/Disable alarm:** using Alarm ON/OFF button to trun on or off the alarm
-* ** Snooze:** if the alarm is ringing it can be snoozed for 5 minutes
+* **Snooze:** if the alarm is ringing it can be snoozed for 5 minutes
 
 ### As for the hardware:
 * **STM32F401cc** which serves as the main component in the system that controls the clock and the alarm
