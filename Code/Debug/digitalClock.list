@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_macro  0001588d  00000000  00000000  0002bd31  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   0000c81c  00000000  00000000  000415be  2**0
+ 18 .debug_line   0000c81f  00000000  00000000  000415be  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    0008787d  00000000  00000000  0004ddda  2**0
+ 19 .debug_str    0008787d  00000000  00000000  0004dddd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  000029f8  00000000  00000000  000d5658  2**2
+ 20 .debug_frame  000029f8  00000000  00000000  000d565c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000051  00000000  00000000  000d8050  2**0
+ 21 .debug_line_str 00000051  00000000  00000000  000d8054  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -352,11 +352,11 @@ Disassembly of section .text:
  80004ce:	bf00      	nop
 
 080004d0 <Alarm_Ring>:
-u8 G_u8AlarmON=0;
-u8 G_u8AlarmRinging=0;
-
-extern u8 G_u8DisaplayFlag;
-
+/**
+ * @brief if it's time to ring -> turn on buzzer
+ *        gets called by Systick
+ * 
+ */
 void Alarm_Ring(){
  80004d0:	b580      	push	{r7, lr}
  80004d2:	af00      	add	r7, sp, #0
@@ -392,6 +392,10 @@ void Alarm_Ring(){
 
 08000510 <Alarm_Snooze>:
 
+/**
+ * @brief snoozes the alarm for 5 minutes if the alarm is ringing
+ * 
+ */
 void Alarm_Snooze(){
  8000510:	b580      	push	{r7, lr}
  8000512:	af00      	add	r7, sp, #0
@@ -459,6 +463,10 @@ void Alarm_Snooze(){
 
 0800057c <Alarm_Stop>:
 
+/**
+ * @brief stops the alarm from ringing if the alarm is ringing
+ * 
+ */
 void Alarm_Stop(){
  800057c:	b580      	push	{r7, lr}
  800057e:	af00      	add	r7, sp, #0
@@ -497,7 +505,10 @@ void Alarm_Stop(){
 
 080005b8 <Alarm_ON_OFF>:
 
-
+/**
+ * @brief toggles the alarm state On/OFF
+ * 
+ */
 void Alarm_ON_OFF(){
  80005b8:	b580      	push	{r7, lr}
  80005ba:	af00      	add	r7, sp, #0
@@ -1168,67 +1179,68 @@ void Clock_updateTime(){
  8000a78:	b580      	push	{r7, lr}
  8000a7a:	af00      	add	r7, sp, #0
 
-    if(G_u8Secs==59){
+	if(G_u8Secs==59){
  8000a7c:	4b1b      	ldr	r3, [pc, #108]	; (8000aec <Clock_updateTime+0x74>)
  8000a7e:	781b      	ldrb	r3, [r3, #0]
  8000a80:	2b3b      	cmp	r3, #59	; 0x3b
- 8000a82:	d109      	bne.n	8000a98 <Clock_updateTime+0x20>
-    	G_u8Secs=0;
+ 8000a82:	d11e      	bne.n	8000ac2 <Clock_updateTime+0x4a>
+		G_u8Secs=0;
  8000a84:	4b19      	ldr	r3, [pc, #100]	; (8000aec <Clock_updateTime+0x74>)
  8000a86:	2200      	movs	r2, #0
  8000a88:	701a      	strb	r2, [r3, #0]
-    	G_u8Mins++;
+		G_u8Mins++;
  8000a8a:	4b19      	ldr	r3, [pc, #100]	; (8000af0 <Clock_updateTime+0x78>)
  8000a8c:	781b      	ldrb	r3, [r3, #0]
  8000a8e:	3301      	adds	r3, #1
  8000a90:	b2da      	uxtb	r2, r3
  8000a92:	4b17      	ldr	r3, [pc, #92]	; (8000af0 <Clock_updateTime+0x78>)
  8000a94:	701a      	strb	r2, [r3, #0]
- 8000a96:	e005      	b.n	8000aa4 <Clock_updateTime+0x2c>
-    }else{
-    	G_u8Secs++;
- 8000a98:	4b14      	ldr	r3, [pc, #80]	; (8000aec <Clock_updateTime+0x74>)
- 8000a9a:	781b      	ldrb	r3, [r3, #0]
- 8000a9c:	3301      	adds	r3, #1
- 8000a9e:	b2da      	uxtb	r2, r3
- 8000aa0:	4b12      	ldr	r3, [pc, #72]	; (8000aec <Clock_updateTime+0x74>)
+		if(G_u8Mins==60){
+ 8000a96:	4b16      	ldr	r3, [pc, #88]	; (8000af0 <Clock_updateTime+0x78>)
+ 8000a98:	781b      	ldrb	r3, [r3, #0]
+ 8000a9a:	2b3c      	cmp	r3, #60	; 0x3c
+ 8000a9c:	d117      	bne.n	8000ace <Clock_updateTime+0x56>
+			G_u8Mins=0;
+ 8000a9e:	4b14      	ldr	r3, [pc, #80]	; (8000af0 <Clock_updateTime+0x78>)
+ 8000aa0:	2200      	movs	r2, #0
  8000aa2:	701a      	strb	r2, [r3, #0]
-    }
-    if(G_u8Mins==59){
- 8000aa4:	4b12      	ldr	r3, [pc, #72]	; (8000af0 <Clock_updateTime+0x78>)
+			if(G_u8Hours==23){
+ 8000aa4:	4b13      	ldr	r3, [pc, #76]	; (8000af4 <Clock_updateTime+0x7c>)
  8000aa6:	781b      	ldrb	r3, [r3, #0]
- 8000aa8:	2b3b      	cmp	r3, #59	; 0x3b
- 8000aaa:	d110      	bne.n	8000ace <Clock_updateTime+0x56>
-    	G_u8Mins=0;
- 8000aac:	4b10      	ldr	r3, [pc, #64]	; (8000af0 <Clock_updateTime+0x78>)
+ 8000aa8:	2b17      	cmp	r3, #23
+ 8000aaa:	d103      	bne.n	8000ab4 <Clock_updateTime+0x3c>
+				G_u8Hours=0;
+ 8000aac:	4b11      	ldr	r3, [pc, #68]	; (8000af4 <Clock_updateTime+0x7c>)
  8000aae:	2200      	movs	r2, #0
  8000ab0:	701a      	strb	r2, [r3, #0]
-        if(G_u8Hours==23){
- 8000ab2:	4b10      	ldr	r3, [pc, #64]	; (8000af4 <Clock_updateTime+0x7c>)
- 8000ab4:	781b      	ldrb	r3, [r3, #0]
- 8000ab6:	2b17      	cmp	r3, #23
- 8000ab8:	d103      	bne.n	8000ac2 <Clock_updateTime+0x4a>
-        	G_u8Hours=0;
- 8000aba:	4b0e      	ldr	r3, [pc, #56]	; (8000af4 <Clock_updateTime+0x7c>)
- 8000abc:	2200      	movs	r2, #0
+ 8000ab2:	e00c      	b.n	8000ace <Clock_updateTime+0x56>
+			}else{
+				G_u8Hours++;
+ 8000ab4:	4b0f      	ldr	r3, [pc, #60]	; (8000af4 <Clock_updateTime+0x7c>)
+ 8000ab6:	781b      	ldrb	r3, [r3, #0]
+ 8000ab8:	3301      	adds	r3, #1
+ 8000aba:	b2da      	uxtb	r2, r3
+ 8000abc:	4b0d      	ldr	r3, [pc, #52]	; (8000af4 <Clock_updateTime+0x7c>)
  8000abe:	701a      	strb	r2, [r3, #0]
  8000ac0:	e005      	b.n	8000ace <Clock_updateTime+0x56>
-        }else{
-        	G_u8Hours++;
- 8000ac2:	4b0c      	ldr	r3, [pc, #48]	; (8000af4 <Clock_updateTime+0x7c>)
+			}
+		}
+	}else{
+		G_u8Secs++;
+ 8000ac2:	4b0a      	ldr	r3, [pc, #40]	; (8000aec <Clock_updateTime+0x74>)
  8000ac4:	781b      	ldrb	r3, [r3, #0]
  8000ac6:	3301      	adds	r3, #1
  8000ac8:	b2da      	uxtb	r2, r3
- 8000aca:	4b0a      	ldr	r3, [pc, #40]	; (8000af4 <Clock_updateTime+0x7c>)
+ 8000aca:	4b08      	ldr	r3, [pc, #32]	; (8000aec <Clock_updateTime+0x74>)
  8000acc:	701a      	strb	r2, [r3, #0]
-        }
-    }
-    if(G_u8DisaplayFlag){
+	}
+
+	if(G_u8DisaplayFlag){
  8000ace:	4b0a      	ldr	r3, [pc, #40]	; (8000af8 <Clock_updateTime+0x80>)
  8000ad0:	781b      	ldrb	r3, [r3, #0]
  8000ad2:	2b00      	cmp	r3, #0
  8000ad4:	d008      	beq.n	8000ae8 <Clock_updateTime+0x70>
-    	Clock_display(G_u8Hours,G_u8Mins,G_u8Secs);
+		Clock_display(G_u8Hours,G_u8Mins,G_u8Secs);
  8000ad6:	4b07      	ldr	r3, [pc, #28]	; (8000af4 <Clock_updateTime+0x7c>)
  8000ad8:	781b      	ldrb	r3, [r3, #0]
  8000ada:	4a05      	ldr	r2, [pc, #20]	; (8000af0 <Clock_updateTime+0x78>)
@@ -1237,7 +1249,7 @@ void Clock_updateTime(){
  8000ae0:	7812      	ldrb	r2, [r2, #0]
  8000ae2:	4618      	mov	r0, r3
  8000ae4:	f000 f80a 	bl	8000afc <Clock_display>
-    }
+	}
 }
  8000ae8:	bf00      	nop
  8000aea:	bd80      	pop	{r7, pc}
@@ -1899,8 +1911,11 @@ void Clock_setClock(){
  8000f94:	20000000 	.word	0x20000000
 
 08000f98 <Clock_compareTime>:
-
-
+ * 
+ * @param A_u8Hours :hours to be compared
+ * @param A_u8Mins 	:minutes to be compared
+ * @return u8 : true or false
+ */
 u8 Clock_compareTime(u8 A_u8Hours,u8 A_u8Mins){
  8000f98:	b480      	push	{r7}
  8000f9a:	b083      	sub	sp, #12
@@ -2618,7 +2633,7 @@ int main(void)
  800142c:	4603      	mov	r3, r0
  800142e:	2b00      	cmp	r3, #0
  8001430:	d1cc      	bne.n	80013cc <main+0x54>
-	  Alarm_ON_OFF();
+		  Alarm_ON_OFF();
  8001432:	f7ff f8c1 	bl	80005b8 <Alarm_ON_OFF>
 	  if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_3)==0){
  8001436:	e7c9      	b.n	80013cc <main+0x54>
