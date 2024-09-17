@@ -48,23 +48,24 @@ void Clock_init(){
  */
 void Clock_updateTime(){
 
-    if(G_u8Secs==59){
-    	G_u8Secs=0;
-    	G_u8Mins++;
-    }else{
-    	G_u8Secs++;
-    }
-    if(G_u8Mins==59){
-    	G_u8Mins=0;
-        if(G_u8Hours==23){
-        	G_u8Hours=0;
-        }else{
-        	G_u8Hours++;
-        }
-    }
-    if(G_u8DisaplayFlag){
-    	Clock_display(G_u8Hours,G_u8Mins,G_u8Secs);
-    }
+	if(G_u8Secs==59){
+		G_u8Secs=0;
+		G_u8Mins++;
+		if(G_u8Mins==60){
+			G_u8Mins=0;
+			if(G_u8Hours==23){
+				G_u8Hours=0;
+			}else{
+				G_u8Hours++;
+			}
+		}
+	}else{
+		G_u8Secs++;
+	}
+
+	if(G_u8DisaplayFlag){
+		Clock_display(G_u8Hours,G_u8Mins,G_u8Secs);
+	}
 }
 
 
